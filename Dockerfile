@@ -42,12 +42,14 @@ RUN set -ex; \
 
 # https://gcc.gnu.org/mirrors.html
 ENV GCC_MIRRORS \
+		https://gcc.gnu.org/pub/gcc/snapshots \
 		https://mirror.marwan.ma/gcc/snapshots \
 		https://bigsearcher.com/mirrors/gcc/snapshots \
 		http://www.netgull.com/gcc/snapshots
 
 # Last Modified: 2022-08-19
-ENV GCC_VERSION 13-20221204
+ARG GCC_VERSION
+ENV GCC_VERSION=${GCC_VERSION:-13-20221204}
 # Docker EOL: 2024-02-19
 
 RUN set -ex; \
