@@ -4,9 +4,9 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM buildpack-deps:bullseye
+FROM ubuntu:22.04
 
-RUN sed -i -E 's/(deb|security).debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
+# RUN sed -i -E 's/(deb|security).debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
 
 RUN set -ex; \
 	if ! command -v gpg > /dev/null; then \
@@ -14,6 +14,10 @@ RUN set -ex; \
 		apt-get install -y --no-install-recommends \
 			gnupg \
 			dirmngr \
+            curl \
+            wget \
+            ca-certificates \
+			build-essential \
 		; \
 		rm -rf /var/lib/apt/lists/*; \
 	fi
@@ -42,9 +46,9 @@ RUN set -ex; \
 
 # https://gcc.gnu.org/mirrors.html
 ENV GCC_MIRRORS \
-		https://gcc.gnu.org/pub/gcc/snapshots \
 		https://mirror.marwan.ma/gcc/snapshots \
 		https://bigsearcher.com/mirrors/gcc/snapshots \
+		https://gcc.gnu.org/pub/gcc/snapshots \
 		http://www.netgull.com/gcc/snapshots
 
 # Last Modified: 2022-08-19
@@ -148,3 +152,4 @@ RUN set -ex; \
 	dpkg-divert --divert /usr/bin/g++.orig --rename /usr/bin/g++; \
 	dpkg-divert --divert /usr/bin/gfortran.orig --rename /usr/bin/gfortran; \
 	update-alternatives --install /usr/bin/cc cc /usr/local/bin/gcc 999
+
